@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#4B2E1E" />
+<title>Café Brisa — Buen café. Algo dulce. Sin prisa.</title>
+<meta name="description" content="Cafetería de especialidad en Madrid. Café de tueste medio, repostería recién hecha, promociones diarias y pedidos a domicilio por WhatsApp." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#FBF6EF;
+    --bg-2:#F3E9D8;
+    --paper:#FFFFFF;
+    --ink:#2A1A10;
+    --ink-2:#5C4534;
+    --muted:#8C7A66;
+    --line:#E7DBC6;
+    --brand:#C9541B;          /* naranja tostado */
+    --brand-2:#F2A65A;        /* naranja claro */
+    --coffee:#4B2E1E;         /* marrón café */
+    --cream:#F7E4BF;
+    --leaf:#5B7A4B;
+    --danger:#B3261E;
+    --shadow: 0 20px 60px -20px rgba(75, 46, 30, 0.25);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter', system-ui, -apple-system, sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:'Fraunces', Georgia, serif; font-weight:700; color:var(--coffee); margin:0 0 .5em; letter-spacing:-.01em; line-height:1.1}
+  h1{font-size:clamp(2.4rem, 5vw + 1rem, 4.8rem); font-weight:900}
+  h2{font-size:clamp(1.8rem, 2.4vw + 1rem, 3rem)}
+  h3{font-size:clamp(1.2rem, 1vw + .8rem, 1.6rem)}
+  p{margin:0 0 1em; color:var(--ink-2)}
+  a{color:inherit; text-decoration:none}
+  img{max-width:100%; display:block}
+  .container{max-width:1200px; margin:0 auto; padding:0 24px}
+  section{padding:96px 0; position:relative}
+  @media (max-width: 768px){ section{padding:64px 0} }
+
+  /* -------- Buttons -------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+    padding:14px 26px; border-radius:999px; font-weight:600; font-size:1rem;
+    cursor:pointer; border:2px solid transparent; transition:transform .18s ease, box-shadow .18s ease, background-color .18s ease, color .18s ease, border-color .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--brand); color:#fff}
+  .btn-primary:hover{background:#B0471A; transform:translateY(-2px); box-shadow:0 12px 24px -12px rgba(201,84,27,.6)}
+  .btn-outline{background:transparent; color:var(--coffee); border-color:var(--coffee)}
+  .btn-outline:hover{background:var(--coffee); color:#fff; transform:translateY(-2px)}
+  .btn-ghost{background:transparent; color:var(--coffee)}
+  .btn-ghost:hover{background:var(--bg-2)}
+  .btn-lg{padding:18px 34px; font-size:1.05rem}
+
+  /* -------- Top bar -------- */
+  .top-strip{
+    background:var(--coffee); color:#fff; text-align:center; padding:10px 16px; font-size:.95rem; position:relative; z-index:60;
+  }
+  .top-strip a{color:var(--brand-2); font-weight:600; margin-left:6px}
+  .top-strip .close{position:absolute; right:12px; top:50%; transform:translateY(-50%); background:transparent; border:0; color:#fff; opacity:.7; cursor:pointer; font-size:1.1rem}
+  .top-strip .close:hover{opacity:1}
+
+  /* -------- Header -------- */
+  header.site{
+    position:sticky; top:0; z-index:50; background:rgba(251,246,239,.85); backdrop-filter:saturate(140%) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; height:72px}
+  .logo{display:flex; align-items:center; gap:.6rem; font-family:'Fraunces', serif; font-weight:900; font-size:1.35rem; color:var(--coffee)}
+  .logo .dot{width:34px; height:34px; border-radius:50%; background:radial-gradient(circle at 30% 30%, var(--brand-2), var(--brand) 70%); display:grid; place-items:center; color:#fff; font-size:1.1rem}
+  .nav-links{display:flex; gap:6px}
+  .nav-links a{padding:8px 14px; border-radius:999px; font-weight:500; color:var(--ink-2); font-size:.95rem}
+  .nav-links a:hover{background:var(--bg-2); color:var(--coffee)}
+  .nav-cta{display:flex; align-items:center; gap:10px}
+  .hamburger{display:none; background:transparent; border:0; cursor:pointer; padding:8px; color:var(--coffee)}
+  @media (max-width: 900px){
+    .nav-links{display:none}
+    .nav-cta .btn:not(.btn-primary){display:none}
+    .hamburger{display:inline-flex}
+  }
+
+  /* Mobile drawer */
+  .drawer{position:fixed; inset:0; background:rgba(42,26,16,.5); z-index:70; opacity:0; pointer-events:none; transition:opacity .25s}
+  .drawer.open{opacity:1; pointer-events:auto}
+  .drawer-panel{position:absolute; right:0; top:0; bottom:0; width:min(320px, 85vw); background:var(--bg); padding:24px; transform:translateX(100%); transition:transform .3s ease; display:flex; flex-direction:column; gap:6px}
+  .drawer.open .drawer-panel{transform:translateX(0)}
+  .drawer-panel a{padding:14px 12px; border-radius:12px; color:var(--coffee); font-weight:600}
+  .drawer-panel a:hover{background:var(--bg-2)}
+  .drawer-close{align-self:flex-end; background:transparent; border:0; font-size:1.4rem; cursor:pointer; color:var(--coffee); margin-bottom:8px}
+
+  /* -------- Hero -------- */
+  .hero{padding-top:72px; padding-bottom:88px; position:relative}
+  .hero-grid{display:grid; grid-template-columns: 1.05fr .95fr; gap:56px; align-items:center}
+  @media (max-width: 900px){ .hero-grid{grid-template-columns:1fr; gap:32px} }
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; background:var(--cream); color:var(--coffee); padding:8px 14px; border-radius:999px; font-size:.85rem; font-weight:600; letter-spacing:.02em; margin-bottom:22px}
+  .hero p.lead{font-size:1.15rem; max-width:52ch}
+  .hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:28px}
+  .hero-meta{display:flex; gap:24px; margin-top:36px; flex-wrap:wrap; color:var(--muted); font-size:.9rem}
+  .hero-meta span{display:inline-flex; align-items:center; gap:6px}
+  .hero-visual{position:relative; aspect-ratio: 4/5; max-height:640px; border-radius:32px; overflow:hidden; box-shadow:var(--shadow); background:#000}
+  .hero-visual img{width:100%; height:100%; object-fit:cover}
+  .hero-badge{position:absolute; bottom:24px; left:24px; background:#fff; border-radius:16px; padding:14px 18px; display:flex; align-items:center; gap:12px; box-shadow:var(--shadow)}
+  .hero-badge .price{font-family:'Fraunces', serif; font-size:1.6rem; font-weight:900; color:var(--brand)}
+  .hero-badge .lbl{font-size:.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em}
+  .stars{color:var(--brand)}
+
+  /* -------- Promos -------- */
+  .promos{background:linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%)}
+  .promo-grid{display:grid; grid-template-columns:repeat(7, 1fr); gap:12px}
+  @media (max-width: 900px){ .promo-grid{grid-template-columns:repeat(2, 1fr)} }
+  .promo{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    padding:20px 16px; text-align:center; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .promo:hover{transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--brand-2)}
+  .promo.today{background:var(--coffee); color:#fff; border-color:var(--coffee)}
+  .promo.today h4, .promo.today p{color:#fff}
+  .promo .day{font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; opacity:.7; margin-bottom:8px}
+  .promo h4{font-family:'Fraunces', serif; font-size:1.1rem; margin:0 0 4px}
+  .promo p{font-size:.85rem; margin:0}
+  .promo.today .badge{display:inline-block; background:var(--brand); color:#fff; font-size:.7rem; padding:3px 10px; border-radius:999px; margin-top:8px}
+
+  /* -------- Features -------- */
+  .features{display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin-top:48px}
+  @media (max-width: 900px){ .features{grid-template-columns:1fr} }
+  .feature{background:var(--paper); border-radius:var(--radius); padding:32px; border:1px solid var(--line); transition:transform .25s ease, box-shadow .25s ease}
+  .feature:hover{transform:translateY(-6px); box-shadow:var(--shadow)}
+  .feature .icon{width:56px; height:56px; border-radius:16px; background:var(--cream); display:grid; place-items:center; color:var(--brand); margin-bottom:18px}
+
+  /* -------- Menu / Carta -------- */
+  .menu-header{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin-bottom:32px}
+  .menu-tabs{display:flex; flex-wrap:wrap; gap:8px; background:var(--paper); border:1px solid var(--line); border-radius:999px; padding:6px}
+  .tab{
+    padding:10px 18px; border-radius:999px; background:transparent; border:0; cursor:pointer; font-weight:600; font-size:.92rem; color:var(--ink-2); transition:all .2s ease;
+  }
+  .tab:hover{color:var(--coffee)}
+  .tab.active{background:var(--coffee); color:#fff}
+  .menu-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:16px 40px}
+  @media (max-width: 800px){ .menu-grid{grid-template-columns:1fr} }
+  .menu-item{display:flex; justify-content:space-between; gap:16px; padding:16px 0; border-bottom:1px dashed var(--line)}
+  .menu-item h4{font-family:'Fraunces', serif; font-size:1.1rem; margin:0 0 4px; color:var(--coffee)}
+  .menu-item p{margin:0; font-size:.9rem; color:var(--muted)}
+  .menu-item .price{font-family:'Fraunces', serif; font-weight:900; color:var(--brand); font-size:1.1rem; white-space:nowrap}
+  .menu-item .tags{display:inline-flex; gap:4px; margin-left:6px}
+  .tag{font-size:.7rem; padding:2px 6px; border-radius:6px; background:var(--bg-2); color:var(--ink-2)}
+  .tag.veg{background:#E4F0DC; color:#3E5B2D}
+  .tag.vegan{background:#D8ECC7; color:#2F4A1F}
+  .tag.gf{background:#FCEBD6; color:#8A4B18}
+  .menu-note{margin-top:24px; font-size:.85rem; color:var(--muted); text-align:center}
+
+  /* -------- Delivery / Cómo pedir -------- */
+  .delivery{background:var(--coffee); color:#fff}
+  .delivery h2, .delivery h3{color:#fff !important}
+  .delivery h2{font-weight:900;text-shadow:0 1px 10px rgba(0,0,0,.18)}
+  .delivery p{color:rgba(255,255,255,.8)}
+  .steps{display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin-top:40px}
+  @media (max-width: 800px){ .steps{grid-template-columns:1fr} }
+  .step{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:var(--radius); padding:28px; position:relative}
+  .step .n{position:absolute; top:-18px; left:24px; width:44px; height:44px; border-radius:50%; background:var(--brand); color:#fff; display:grid; place-items:center; font-family:'Fraunces', serif; font-weight:900; font-size:1.2rem}
+  .step h3{margin-top:12px}
+  .delivery-info{margin-top:40px; display:flex; gap:24px; flex-wrap:wrap; padding:18px 24px; background:rgba(255,255,255,.06); border-radius:16px; font-size:.95rem}
+  .delivery-info span{display:inline-flex; align-items:center; gap:8px; color:rgba(255,255,255,.9)}
+
+  /* -------- About -------- */
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center}
+  @media (max-width: 900px){ .about-grid{grid-template-columns:1fr; gap:32px} }
+  .about-img{border-radius:32px; overflow:hidden; aspect-ratio:1/1; box-shadow:var(--shadow)}
+  .about-img img{width:100%; height:100%; object-fit:cover}
+  .value-list{list-style:none; padding:0; margin:24px 0 0}
+  .value-list li{display:flex; gap:14px; padding:14px 0; border-top:1px solid var(--line)}
+  .value-list li:first-child{border-top:0}
+  .value-list .icon{flex-shrink:0; width:36px; height:36px; border-radius:10px; background:var(--cream); color:var(--brand); display:grid; place-items:center}
+  .value-list b{color:var(--coffee); display:block; margin-bottom:2px; font-family:'Fraunces', serif}
+
+  /* -------- Gallery -------- */
+  .gallery{background:var(--bg-2)}
+  .gallery-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-top:40px}
+  @media (max-width: 900px){ .gallery-grid{grid-template-columns:repeat(2, 1fr)} }
+  .gal{aspect-ratio:1/1; border-radius:var(--radius); overflow:hidden; cursor:pointer; position:relative; background:#000}
+  .gal img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease, filter .3s ease}
+  .gal:hover img{transform:scale(1.08)}
+  .gal-caption{position:absolute; left:14px; right:14px; bottom:14px; color:#fff; font-family:'Fraunces', serif; font-size:.95rem; text-shadow:0 2px 8px rgba(0,0,0,.6); opacity:0; transform:translateY(6px); transition:.25s}
+  .gal:hover .gal-caption{opacity:1; transform:translateY(0)}
+
+  /* -------- Hours & Location -------- */
+  .info-grid{display:grid; grid-template-columns:1fr 1fr; gap:32px}
+  @media (max-width: 900px){ .info-grid{grid-template-columns:1fr} }
+  .card{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:32px}
+  .hours{width:100%; border-collapse:collapse; margin-top:8px}
+  .hours td{padding:10px 0; border-bottom:1px solid var(--line)}
+  .hours td:last-child{text-align:right; color:var(--ink-2); font-variant-numeric:tabular-nums}
+  .status{display:inline-flex; align-items:center; gap:8px; padding:8px 14px; background:#E4F0DC; color:#3E5B2D; border-radius:999px; font-weight:600; font-size:.85rem}
+  .status .pulse{width:8px; height:8px; border-radius:50%; background:#3E5B2D; box-shadow:0 0 0 0 rgba(62,91,45,.6); animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(62,91,45,.6)} 70%{box-shadow:0 0 0 10px rgba(62,91,45,0)} 100%{box-shadow:0 0 0 0 rgba(62,91,45,0)}}
+
+  .map-wrap{aspect-ratio:16/10; border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); position:relative; background:linear-gradient(135deg, #E7DBC6, #F3E9D8)}
+  .map-wrap iframe{width:100%; height:100%; border:0}
+
+  /* -------- Contact -------- */
+  .contact-grid{display:grid; grid-template-columns:1fr 1.2fr; gap:32px}
+  @media (max-width: 900px){ .contact-grid{grid-template-columns:1fr} }
+  .form-field{display:flex; flex-direction:column; gap:6px; margin-bottom:16px}
+  .form-field label{font-weight:600; font-size:.9rem; color:var(--coffee)}
+  .form-field input, .form-field select, .form-field textarea{
+    background:#fff; border:1.5px solid var(--line); border-radius:12px; padding:12px 14px; font:inherit; color:var(--ink); transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus{outline:0; border-color:var(--brand); box-shadow:0 0 0 4px rgba(201,84,27,.15)}
+  .form-field textarea{min-height:120px; resize:vertical}
+  .contact-list{list-style:none; padding:0; margin:0}
+  .contact-list li{padding:14px 0; border-bottom:1px solid var(--line); display:flex; gap:14px; align-items:center}
+  .contact-list li:last-child{border-bottom:0}
+  .contact-list .icon{width:40px; height:40px; border-radius:10px; background:var(--cream); color:var(--brand); display:grid; place-items:center}
+  .contact-list a{color:var(--coffee); font-weight:600}
+  .contact-list a:hover{color:var(--brand)}
+
+  /* -------- Footer -------- */
+  footer{background:var(--coffee); color:rgba(255,255,255,.75); padding:56px 0 24px}
+  .footer-grid{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px}
+  @media (max-width: 800px){ .footer-grid{grid-template-columns:1fr 1fr} }
+  @media (max-width: 500px){ .footer-grid{grid-template-columns:1fr} }
+  footer h4{color:#fff; font-family:'Fraunces', serif; font-size:1rem; margin-bottom:14px}
+  footer a{color:rgba(255,255,255,.7); display:block; padding:4px 0; font-size:.9rem}
+  footer a:hover{color:var(--brand-2)}
+  .footer-bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(255,255,255,.1); display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; font-size:.85rem}
+  .socials{display:flex; gap:10px}
+  .socials a{width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.08); display:grid; place-items:center; padding:0}
+  .socials a:hover{background:var(--brand)}
+
+  /* -------- Cookies banner -------- */
+  .cookies{
+    position:fixed; left:16px; right:16px; bottom:16px; z-index:80; max-width:520px; margin-left:auto;
+    background:#fff; border:1px solid var(--line); border-radius:20px; box-shadow:var(--shadow);
+    padding:22px; transform:translateY(140%); transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .cookies.show{transform:translateY(0)}
+  .cookies h4{margin:0 0 6px}
+  .cookies p{font-size:.9rem; margin:0 0 14px}
+  .cookies-actions{display:flex; gap:8px; flex-wrap:wrap}
+  .cookies-actions .btn{padding:10px 18px; font-size:.9rem}
+  .cookies-link{background:transparent; border:0; color:var(--brand); cursor:pointer; font-weight:600; font-size:.85rem; padding:0; text-decoration:underline}
+
+  /* -------- Modal -------- */
+  .modal{position:fixed; inset:0; background:rgba(42,26,16,.55); z-index:90; display:none; align-items:center; justify-content:center; padding:16px; overflow-y:auto}
+  .modal.open{display:flex}
+  .modal-content{background:#fff; border-radius:24px; max-width:720px; width:100%; max-height:90vh; overflow-y:auto; padding:36px; position:relative; box-shadow:var(--shadow)}
+  .modal-close{position:absolute; top:16px; right:16px; width:40px; height:40px; border-radius:50%; background:var(--bg-2); border:0; cursor:pointer; font-size:1.4rem; color:var(--coffee); display:grid; place-items:center}
+  .modal-close:hover{background:var(--line)}
+  .modal h2{margin-bottom:16px}
+  .modal h3{margin-top:24px; margin-bottom:8px; font-size:1.15rem}
+  .modal p, .modal li{font-size:.95rem; color:var(--ink-2)}
+
+  /* -------- Floating buttons -------- */
+.fab-whatsapp{
+  position:fixed; bottom:20px; right:20px; z-index:70;
+  width:56px; height:56px; border-radius:50%; background:#25D366; color:#fff;
+  display:grid; place-items:center; box-shadow:var(--shadow); transition:transform .18s ease;
+}
+.fab-whatsapp:hover{transform:scale(1.08)}
+@media (max-width: 500px){ .fab-whatsapp{bottom:18px;right:16px} }
+
+/* Reveal on scroll */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1; transform:translateY(0)}
+
+  /* Utilities */
+  .center{text-align:center}
+  .mt-16{margin-top:16px}
+  .mt-24{margin-top:24px}
+  .mt-40{margin-top:40px}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:24px}
+  @media (max-width: 700px){ .grid-2{grid-template-columns:1fr} }
+
+/* ===== Café Brisa — mejoras visuales y responsive ===== */
+:root{
+  --section-a:#FBF6EF;
+  --section-b:#F3E9D8;
+  --section-c:#EDF2E9;
+  --section-d:#FFF8EE;
+  --section-e:#E9DDD0;
+}
+body{min-width:320px}
+section{isolation:isolate; scroll-margin-top:84px}
+section:nth-of-type(even){background:var(--section-a)}
+section:nth-of-type(odd){background:var(--section-d)}
+section.section-sage{background:linear-gradient(180deg,var(--section-c),#F7FAF4)}
+section.section-coffee{background:linear-gradient(180deg,#4B2E1E,#392217)}
+.section-transition{height:34px; margin:-1px 0 0; position:relative; z-index:2; overflow:hidden}
+.section-transition::before{
+  content:""; position:absolute; left:-5%; right:-5%; top:-20px; height:54px;
+  border-radius:0 0 50% 50%/0 0 100% 100%;
+  background:inherit;
+}
+.menu-featured{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:28px 0 36px}
+.menu-featured-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 12px 35px -20px rgba(75,46,30,.35);transition:transform .2s ease,box-shadow .2s ease}
+.menu-featured-card:hover{transform:translateY(-4px);box-shadow:0 20px 45px -22px rgba(75,46,30,.4)}
+.menu-featured-card img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.menu-featured-card .body{padding:15px 16px}
+.menu-featured-card .body h4{margin:0 0 4px}
+.menu-featured-card .price{font-family:'Fraunces',serif;font-weight:900;color:var(--brand)}
+.payment-panel{margin-top:28px;padding:24px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}
+.payment-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.payment-row:last-child{border-bottom:0}
+.cart-badge{position:fixed;right:20px;bottom:88px;z-index:71;background:var(--coffee);color:#fff;border-radius:999px;padding:11px 16px;font-weight:700;box-shadow:var(--shadow);display:none}
+.cart-badge.show{display:inline-flex}
+@media (max-width: 1000px){.menu-featured{grid-template-columns:repeat(2,1fr)}}
+@media (max-width: 600px){
+  .container{padding-left:16px;padding-right:16px}
+  .hero{padding-top:46px;padding-bottom:60px}
+  .hero-grid{gap:22px}
+  .hero-visual{max-height:none}
+  .hero-meta{gap:10px;font-size:.82rem}
+  .menu-featured{grid-template-columns:1fr}
+  .menu-tabs{overflow-x:auto;justify-content:flex-start;flex-wrap:nowrap;scrollbar-width:none}
+  .menu-tabs::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap}
+  .btn{min-height:48px}
+  .fab-whatsapp{bottom:18px;right:16px}
+  .cart-badge{bottom:82px;right:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
+
+
+.demo-delivery{
+  background:
+    radial-gradient(circle at 85% 20%, rgba(242,166,90,.45), transparent 28%),
+    linear-gradient(135deg,#7A351E 0%,#4B2E1E 58%,#321B11 100%) !important;
+  color:#fff;
+}
+.demo-delivery .delivery-eyebrow{
+  display:inline-flex;
+  background:#F2A65A !important;
+  color:#3A1D10 !important;
+  font-weight:800;
+  border:1px solid rgba(255,255,255,.35);
+}
+.demo-delivery .delivery-title{
+  color:#FFF !important;
+  font-weight:900;
+  font-size:clamp(2rem,4vw,3.2rem);
+  text-shadow:0 2px 18px rgba(0,0,0,.22);
+}
+.demo-delivery .delivery-lead{
+  color:#FFF4E9 !important;
+  font-size:1.08rem;
+  max-width:58ch;
+}
+.demo-delivery .step h3,
+.demo-delivery .step p{color:#fff !important}
+.delivery-steps .step{
+  background:rgba(255,255,255,.09);
+  border-color:rgba(255,255,255,.2);
+}
+
+
+.contact-section{
+  background:
+    linear-gradient(180deg,#FFF8EE 0%,#F4E7D6 100%) !important;
+}
+.contact-section .card{
+  background:#FFFDF9;
+  border-color:#E0CBAE;
+}
+.contact-section .contact-list li{
+  padding:16px 0;
+}
+
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     ✏️ CAFÉ BRISA — ZONA DE EDICIÓN RÁPIDA
+     ---------------------------------------------------------
+     PARA CAMBIAR LA DEMO:
+     1) Modifica SOLO los valores de SITE_CONFIG.
+     2) Guarda el archivo.
+     3) Recarga la página.
+
+     Puedes cambiar:
+     • nombre del negocio
+     • ciudad y dirección
+     • teléfono, WhatsApp y email
+     • colores principales
+     • frase principal
+     • promoción
+     • servicio a domicilio
+     • horario mostrado
+     • imágenes
+     • enlace de pago de Stripe
+
+     Los datos actuales son FICTICIOS para la demostración.
+     ========================================================= -->
+<script>
+const SITE_CONFIG = {
+  /* ===== DATOS DEL NEGOCIO ===== */
+  businessName: "Café Brisa",
+  city: "Madrid",
+  address: "Avenida de la Brisa 27, Madrid",
+  phone: "+34 600 987 321",
+  whatsapp: "34600987321",
+  email: "hola@cafebrisademo.es",
+
+  /* ===== TEXTOS PRINCIPALES ===== */
+  heroTitle: "Buen café.<br>Algo dulce.<br><span style=\"color:var(--brand)\">Sin prisa.</span>",
+  heroLead: "Café de tueste medio, repostería horneada cada mañana y tu pedido en casa cuando no puedes acercarte. Un lugar para hacer la mejor pausa del día.",
+  deliveryTitle: "Disfruta tu café sin salir de casa",
+  deliveryLead: "Pide tus cafés, desayunos y tartas favoritas y recíbelos cómodamente en tu puerta.",
+  promoText: "2x1 en cafés",
+
+  /* ===== CONTACTO ===== */
+  contactIntro: "Teléfono, WhatsApp, email y datos de ubicación en un solo lugar.",
+
+  /* ===== HORARIO ===== */
+  hoursWeek: "Lunes a viernes",
+  hoursWeekValue: "7:30 – 20:00",
+  hoursSaturday: "Sábado",
+  hoursSaturdayValue: "8:00 – 21:00",
+  hoursSunday: "Domingo",
+  hoursSundayValue: "9:00 – 14:00",
+
+  /* ===== SERVICIO A DOMICILIO ===== */
+  deliveryHours: "9:00 – 17:30",
+  deliveryFee: "1,50 €",
+  minimumOrder: "8 €",
+  freeDeliveryFrom: "20 €",
+
+  /* ===== COLORES ===== */
+  colors: {
+    background: "#FBF6EF",
+    backgroundAlt: "#F3E9D8",
+    paper: "#FFFFFF",
+    text: "#2A1A10",
+    textSoft: "#5C4534",
+    muted: "#8C7A66",
+    line: "#E7DBC6",
+    brand: "#C9541B",
+    brandLight: "#F2A65A",
+    coffee: "#4B2E1E",
+    cream: "#F7E4BF",
+    leaf: "#5B7A4B"
+  },
+
+  /* ===== IMÁGENES ===== */
+  images: {
+    hero: "https://images.unsplash.com/photo-1542181961-9590d0c79dab?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200",
+    about: "https://images.unsplash.com/photo-1535688391459-479d308104f8?crop=entropy&cs=srgb&fm=jpg&q=85&w=1000"
+  },
+
+  /* ===== PAGO =====
+     Pega aquí el Stripe Payment Link del negocio.
+     Ejemplo:
+     paymentLink: "https://buy.stripe.com/XXXXXXXX"
+  */
+  paymentLink: ""https://buy.stripe.com/XXXXXXXX"
+};
+
+function applySiteConfig() {
+  const root = document.documentElement;
+
+  const colorMap = {
+    "--bg": SITE_CONFIG.colors.background,
+    "--bg-2": SITE_CONFIG.colors.backgroundAlt,
+    "--paper": SITE_CONFIG.colors.paper,
+    "--ink": SITE_CONFIG.colors.text,
+    "--ink-2": SITE_CONFIG.colors.textSoft,
+    "--muted": SITE_CONFIG.colors.muted,
+    "--line": SITE_CONFIG.colors.line,
+    "--brand": SITE_CONFIG.colors.brand,
+    "--brand-2": SITE_CONFIG.colors.brandLight,
+    "--coffee": SITE_CONFIG.colors.coffee,
+    "--cream": SITE_CONFIG.colors.cream,
+    "--leaf": SITE_CONFIG.colors.leaf
+  };
+
+  Object.entries(colorMap).forEach(([name, value]) => root.style.setProperty(name, value));
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = value;
+  };
+
+  const setHref = (id, href) => {
+    const el = document.getElementById(id);
+    if (el) el.href = href;
+  };
+
+  setText("config-business-name", SITE_CONFIG.businessName);
+  setText("config-hero-city", SITE_CONFIG.city);
+  setText("config-hero-title", SITE_CONFIG.heroTitle);
+  setText("config-hero-lead", SITE_CONFIG.heroLead);
+  setText("config-delivery-title", SITE_CONFIG.deliveryTitle);
+  setText("config-delivery-lead", SITE_CONFIG.deliveryLead);
+  setText("config-promo", SITE_CONFIG.promoText);
+  setText("config-contact-intro", SITE_CONFIG.contactIntro);
+  setText("config-phone", SITE_CONFIG.phone);
+  setText("config-email", SITE_CONFIG.email);
+  setText("config-address", SITE_CONFIG.address);
+  setText("config-hours-week", SITE_CONFIG.hoursWeek);
+  setText("config-hours-week-value", SITE_CONFIG.hoursWeekValue);
+  setText("config-hours-saturday", SITE_CONFIG.hoursSaturday);
+  setText("config-hours-saturday-value", SITE_CONFIG.hoursSaturdayValue);
+  setText("config-hours-sunday", SITE_CONFIG.hoursSunday);
+  setText("config-hours-sunday-value", SITE_CONFIG.hoursSundayValue);
+  setText("config-delivery-hours", SITE_CONFIG.deliveryHours);
+  setText("config-delivery-fee", SITE_CONFIG.deliveryFee);
+  setText("config-minimum-order", SITE_CONFIG.minimumOrder);
+  setText("config-free-delivery", SITE_CONFIG.freeDeliveryFrom);
+
+  setHref("config-phone-link", "tel:" + SITE_CONFIG.phone.replace(/\\s+/g, ""));
+  setHref("config-email-link", "mailto:" + SITE_CONFIG.email);
+  setHref("config-whatsapp-link", "https://wa.me/" + SITE_CONFIG.whatsapp);
+
+  const mapQuery = encodeURIComponent(SITE_CONFIG.address);
+  const map = document.getElementById("config-map");
+  if (map) map.src = "https://www.google.com/maps?q=" + mapQuery + "&output=embed";
+  const directions = document.getElementById("config-directions");
+  if (directions) directions.href = "https://www.google.com/maps/dir/?api=1&destination=" + mapQuery;
+
+  const heroImage = document.getElementById("config-hero-image");
+  if (heroImage) heroImage.src = SITE_CONFIG.images.hero;
+  const aboutImage = document.getElementById("config-about-image");
+  if (aboutImage) aboutImage.src = SITE_CONFIG.images.about;
+
+  document.title = SITE_CONFIG.businessName + " — " + SITE_CONFIG.heroLead.split(".")[0] + ".";
+}
+</script>
+
+
+<!-- Top strip -->
+<div class="top-strip" id="topStrip">
+  <span>✨ <strong>Hoy Lunes:</strong> <span id="config-promo">2x1 en cafés</span></span>
+  <a href="#carta">Ver detalles</a>
+  <button class="close" onclick="document.getElementById('topStrip').style.display='none'" aria-label="Cerrar">×</button>
+</div>
+
+<!-- Header -->
+<header class="site">
+  <div class="container nav">
+    <a href="#inicio" class="logo">
+      <span class="dot">☕</span>
+      <span id="config-business-name">Café Brisa</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#carta">Carta</a>
+      <a href="#promociones">Promos</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#galeria">Galería</a>
+      <a href="#horarios">Horarios</a>
+      <a href="#pago">Pagar</a><a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#carta" class="btn btn-ghost">Ver carta</a>
+      <a href="https://wa.me/34600987321?text=Hola%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener" class="btn btn-primary">Pedir</a>
+      <button class="hamburger" onclick="document.getElementById('drawer').classList.add('open')" aria-label="Abrir menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div style="background:#FFF3D6;border-bottom:1px solid #E7DBC6;padding:9px 14px;text-align:center;font-size:.82rem;color:#5C4534">
+  Demo de Café Brisa · Todos los datos, precios y promociones son ficticios hasta confirmarlos con el negocio.
+</div>
+
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" onclick="if(event.target===this) this.classList.remove('open')">
+  <div class="drawer-panel">
+    <button class="drawer-close" onclick="document.getElementById('drawer').classList.remove('open')">×</button>
+    <a href="#carta" onclick="closeDrawer()">Carta</a>
+    <a href="#promociones" onclick="closeDrawer()">Promociones</a>
+    <a href="#nosotros" onclick="closeDrawer()">Nosotros</a>
+    <a href="#galeria" onclick="closeDrawer()">Galería</a>
+    <a href="#horarios" onclick="closeDrawer()">Horarios</a>
+    <a href="#ubicacion" onclick="closeDrawer()">Dónde estamos</a>
+    <a href="#pago" onclick="closeDrawer()">Pagar</a><a href="#contacto" onclick="closeDrawer()">Contacto</a>
+    <a href="https://wa.me/34600987321" target="_blank" rel="noopener" style="margin-top:12px; background:var(--brand); color:#fff; text-align:center">Pedir por WhatsApp</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<section id="inicio" class="hero container">
+  <div class="hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">☕ Cafetería de especialidad · <span id="config-hero-city">Madrid</span></span>
+      <h1 id="config-hero-title">Buen café.<br>Algo dulce.<br><span style="color:var(--brand)">Sin prisa.</span></h1>
+      <p id="config-hero-lead" class="lead">Café de tueste medio, repostería horneada cada mañana y tu pedido en casa cuando no puedes acercarte. Un lugar para hacer la mejor pausa del día.</p>
+      <div class="hero-actions">
+        <a href="#carta" class="btn btn-primary btn-lg">
+          Ver carta
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a id="config-whatsapp-link" href="https://wa.me/34600987321?text=Hola%2C%20quiero%20hacer%20un%20pedido%20en%20Caf%C3%A9%20Brisa" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 3 17l-1.5 5.5L7 21a11 11 0 0 0 13.5-17.5Zm-8.5 17a9 9 0 0 1-4.6-1.3l-.3-.2-3.2 1 1-3.2-.2-.3A9 9 0 1 1 12 20.5Zm5.1-6.6c-.3-.1-1.6-.8-1.9-.9s-.4-.1-.6.1-.7.9-.9 1.1-.3.2-.6.1a7.4 7.4 0 0 1-3.6-3.2c-.3-.5.3-.5.8-1.5a.5.5 0 0 0 0-.5c-.1-.1-.6-1.5-.9-2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.6 13.6 0 0 0 5.2 4.6c1.9.8 2.6.9 3.5.7a3.1 3.1 0 0 0 2.1-1.5 2.5 2.5 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4Z"/></svg>
+          Pedir a domicilio
+        </a>
+      </div>
+      <div class="hero-meta">
+        <span class="stars">★★★★★</span>
+        <span>4.9 · 480 reseñas</span>
+        <span>·</span>
+        <span>📍 Avenida de la Brisa 27, Madrid</span>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <img src="https://images.unsplash.com/photo-1542181961-9590d0c79dab?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200" alt="Interior de Café Brisa" loading="lazy" />
+      <div class="hero-badge">
+        <div class="price">2x1</div>
+        <div>
+          <div class="lbl">Hoy Lunes</div>
+          <div style="font-weight:700; color:var(--coffee)">en cafés</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Promotions -->
+<section id="promociones" class="promos">
+  <div class="container">
+    <div class="center reveal">
+      <span class="eyebrow">📅 Cada día algo especial</span>
+      <h2>Descuentos según el día</h2>
+      <p style="max-width:52ch; margin:0 auto">Un motivo distinto para pasarte cada día de la semana. No acumulables con otras promociones.</p>
+    </div>
+    <div class="promo-grid mt-40 reveal">
+      <div class="promo today" data-day="1">
+        <div class="day">Lunes · Hoy</div>
+        <h4>2x1 en cafés</h4>
+        <p>Todo el día en barra y sala.</p>
+        <span class="badge">HOY</span>
+      </div>
+      <div class="promo" data-day="2">
+        <div class="day">Martes</div>
+        <h4>−20 % en tés</h4>
+        <p>Infusiones y tés a granel.</p>
+      </div>
+      <div class="promo" data-day="3">
+        <div class="day">Miércoles</div>
+        <h4>−15 % repostería</h4>
+        <p>Cruasanes, tartas y cookies.</p>
+      </div>
+      <div class="promo" data-day="4">
+        <div class="day">Jueves</div>
+        <h4>Café + tostada</h4>
+        <p>Menú desayuno por 3,50 €.</p>
+      </div>
+      <div class="promo" data-day="5">
+        <div class="day">Viernes</div>
+        <h4>2x1 bebidas frías</h4>
+        <p>Iced latte y smoothies.</p>
+      </div>
+      <div class="promo" data-day="6">
+        <div class="day">Sábado</div>
+        <h4>−10 % en brunch</h4>
+        <p>Todo el fin de semana.</p>
+      </div>
+      <div class="promo" data-day="0">
+        <div class="day">Domingo</div>
+        <h4>Tarta del día −50 %</h4>
+        <p>Mientras haya existencias.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <div class="features">
+      <div class="feature reveal">
+        <div class="icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 010 8h-1"/><path d="M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <h3>Café de calidad</h3>
+        <p>Tueste medio y molienda al momento. Cada taza sabe a lo que es: origen, cuerpo y ese punto exacto de amargor.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 00-3 3v1H7a2 2 0 00-2 2v13h14V8a2 2 0 00-2-2h-2V5a3 3 0 00-3-3z"/><path d="M9 13h6M9 17h6"/></svg>
+        </div>
+        <h3>Productos frescos</h3>
+        <p>Repostería y salados horneados cada mañana. Trabajamos con proveedores locales y compramos poco y a menudo.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 18h6M3 18H2v-6l3-3h6l3 3v6M14 6h4l3 5v7"/></svg>
+        </div>
+        <h3>A domicilio</h3>
+        <p>Tu café llega caliente. Pedidos por WhatsApp en un minuto, dentro de nuestra zona de reparto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Menu -->
+<section id="carta" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="menu-header reveal">
+      <div>
+        <span class="eyebrow">🍽️ Nuestra carta</span>
+        <h2>Hecho despacio, servido rápido</h2>
+        <p>Todo se prepara al momento. Si no lo ves, pregúntanos.</p>
+      </div>
+    </div>
+    
+<div class="menu-featured reveal">
+  <article class="menu-featured-card">
+    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=900&q=85"
+         alt="Tarta artesanal de demostración" loading="lazy">
+    <div class="body">
+      <h4>Tarta de zanahoria</h4>
+      <p>Bizcocho especiado con crema suave.</p>
+      <span class="price">4,20 €</span><button class="btn btn-primary" style="margin-top:10px;width:100%;padding:10px 14px;font-size:.9rem" onclick="addToCart('Tarta de zanahoria', 4.20)">Añadir</button>
+    </div>
+  </article>
+  <article class="menu-featured-card">
+    <img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=900&q=85"
+         alt="Croissant de demostración" loading="lazy">
+    <div class="body">
+      <h4>Croissant artesanal</h4>
+      <p>Horneado cada mañana.</p>
+      <span class="price">1,80 €</span><button class="btn btn-primary" style="margin-top:10px;width:100%;padding:10px 14px;font-size:.9rem" onclick="addToCart('Croissant artesanal', 1.80)">Añadir</button>
+    </div>
+  </article>
+  <article class="menu-featured-card">
+    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=85"
+         alt="Café de especialidad de demostración" loading="lazy">
+    <div class="body">
+      <h4>Flat white</h4>
+      <p>Doble espresso y microespuma.</p>
+      <span class="price">2,80 €</span><button class="btn btn-primary" style="margin-top:10px;width:100%;padding:10px 14px;font-size:.9rem" onclick="addToCart('Flat white', 2.80)">Añadir</button>
+    </div>
+  </article>
+  <article class="menu-featured-card">
+    <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=900&q=85"
+         alt="Interior de cafetería de demostración" loading="lazy">
+    <div class="body">
+      <h4>Brunch de la casa</h4>
+      <p>Una pausa completa para disfrutar sin prisa.</p>
+      <span class="price">12,00 €</span><button class="btn btn-primary" style="margin-top:10px;width:100%;padding:10px 14px;font-size:.9rem" onclick="addToCart('Brunch de la casa', 12.00)">Añadir</button>
+    </div>
+  </article>
+</div>
+
+<div class="menu-tabs reveal" role="tablist">
+      <button class="tab active" data-tab="cafes">Cafés</button>
+      <button class="tab" data-tab="tes">Tés e infusiones</button>
+      <button class="tab" data-tab="frias">Bebidas frías</button>
+      <button class="tab" data-tab="desayunos">Desayunos</button>
+      <button class="tab" data-tab="reposteria">Repostería</button>
+      <button class="tab" data-tab="salados">Salados</button>
+    </div>
+
+    <div class="menu-panel" id="panel-cafes">
+      <div class="menu-grid mt-40">
+        <div class="menu-item"><div><h4>Espresso</h4><p>Corto e intenso.</p></div><div class="price">1,60 €</div></div>
+        <div class="menu-item"><div><h4>Cortado</h4><p>Espresso con un toque de leche.</p></div><div class="price">1,80 €</div></div>
+        <div class="menu-item"><div><h4>Café con leche</h4><p>Nuestro clásico.</p></div><div class="price">2,00 €</div></div>
+        <div class="menu-item"><div><h4>Cappuccino</h4><p>Con espuma sedosa y cacao.</p></div><div class="price">2,60 €</div></div>
+        <div class="menu-item"><div><h4>Flat white</h4><p>Doble espresso y microespuma.</p></div><div class="price">2,80 €</div></div>
+        <div class="menu-item"><div><h4>Latte de la casa</h4><p>Con canela o vainilla.</p></div><div class="price">3,00 €</div></div>
+        <div class="menu-item"><div><h4>Mocha</h4><p>Chocolate belga y café.</p></div><div class="price">3,40 €</div></div>
+        <div class="menu-item"><div><h4>Café de filtro V60</h4><p>Del origen del mes.</p></div><div class="price">3,20 €</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="panel-tes" style="display:none">
+      <div class="menu-grid mt-40">
+        <div class="menu-item"><div><h4>Té verde sencha</h4><p>Herbáceo y suave. <span class="tags"><span class="tag vegan">Vegano</span></span></p></div><div class="price">2,40 €</div></div>
+        <div class="menu-item"><div><h4>Rooibos vainilla</h4><p>Sin teína.</p></div><div class="price">2,60 €</div></div>
+        <div class="menu-item"><div><h4>Té negro Earl Grey</h4><p>Con bergamota.</p></div><div class="price">2,40 €</div></div>
+        <div class="menu-item"><div><h4>Infusión frutos rojos</h4><p>Suave y aromática.</p></div><div class="price">2,60 €</div></div>
+        <div class="menu-item"><div><h4>Chai latte</h4><p>Especiado y cremoso.</p></div><div class="price">3,20 €</div></div>
+        <div class="menu-item"><div><h4>Matcha latte</h4><p>Con leche de avena. <span class="tags"><span class="tag vegan">Vegano</span></span></p></div><div class="price">3,80 €</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="panel-frias" style="display:none">
+      <div class="menu-grid mt-40">
+        <div class="menu-item"><div><h4>Iced latte</h4><p>Café frío con leche fría.</p></div><div class="price">3,20 €</div></div>
+        <div class="menu-item"><div><h4>Cold brew</h4><p>Infusionado 12 h.</p></div><div class="price">3,40 €</div></div>
+        <div class="menu-item"><div><h4>Smoothie mango-piña</h4><p>Fruta natural. <span class="tags"><span class="tag vegan">Vegano</span></span></p></div><div class="price">4,20 €</div></div>
+        <div class="menu-item"><div><h4>Smoothie frutos rojos</h4><p>Con yogur griego.</p></div><div class="price">4,20 €</div></div>
+        <div class="menu-item"><div><h4>Limonada de la casa</h4><p>Con hierbabuena.</p></div><div class="price">3,00 €</div></div>
+        <div class="menu-item"><div><h4>Zumo natural del día</h4><p>Recién exprimido.</p></div><div class="price">3,20 €</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="panel-desayunos" style="display:none">
+      <div class="menu-grid mt-40">
+        <div class="menu-item"><div><h4>Tostada de aguacate</h4><p>Pan de masa madre, huevo y semillas. <span class="tags"><span class="tag veg">Veg</span></span></p></div><div class="price">6,90 €</div></div>
+        <div class="menu-item"><div><h4>Tostada de tomate</h4><p>Pan tostado y AOVE. <span class="tags"><span class="tag vegan">Vegano</span></span></p></div><div class="price">3,50 €</div></div>
+        <div class="menu-item"><div><h4>Bowl de yogur y granola</h4><p>Fruta fresca y miel.</p></div><div class="price">5,80 €</div></div>
+        <div class="menu-item"><div><h4>Huevos benedictinos</h4><p>Muffin, jamón y holandesa.</p></div><div class="price">8,90 €</div></div>
+        <div class="menu-item"><div><h4>Pancakes clásicos</h4><p>Con sirope de arce.</p></div><div class="price">6,50 €</div></div>
+        <div class="menu-item"><div><h4>Brunch de la casa</h4><p>Tostada + huevos + café + zumo.</p></div><div class="price">12,00 €</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="panel-reposteria" style="display:none">
+      <div class="menu-grid mt-40">
+        <div class="menu-item"><div><h4>Cruasán mantequilla</h4><p>Recién horneado.</p></div><div class="price">1,80 €</div></div>
+        <div class="menu-item"><div><h4>Cruasán de almendra</h4><p>Relleno y con almendras.</p></div><div class="price">2,60 €</div></div>
+        <div class="menu-item"><div><h4>Cinnamon roll</h4><p>Canela y glaseado.</p></div><div class="price">3,20 €</div></div>
+        <div class="menu-item"><div><h4>Cookie de chocolate</h4><p>Doble chocolate belga.</p></div><div class="price">2,20 €</div></div>
+        <div class="menu-item"><div><h4>Tarta de zanahoria</h4><p>Con crema de queso.</p></div><div class="price">4,20 €</div></div>
+        <div class="menu-item"><div><h4>Tarta de queso</h4><p>Estilo San Sebastián.</p></div><div class="price">4,50 €</div></div>
+        <div class="menu-item"><div><h4>Brownie</h4><p>Denso y con nueces. <span class="tags"><span class="tag gf">SG</span></span></p></div><div class="price">3,80 €</div></div>
+        <div class="menu-item"><div><h4>Muffin arándanos</h4><p>Esponjoso y jugoso.</p></div><div class="price">2,80 €</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="panel-salados" style="display:none">
+      <div class="menu-grid mt-40">
+        <div class="menu-item"><div><h4>Sándwich mixto</h4><p>Jamón y queso a la plancha.</p></div><div class="price">4,80 €</div></div>
+        <div class="menu-item"><div><h4>Sándwich pollo pesto</h4><p>Con rúcula y tomate.</p></div><div class="price">6,20 €</div></div>
+        <div class="menu-item"><div><h4>Bagel de salmón</h4><p>Queso crema y alcaparras.</p></div><div class="price">7,90 €</div></div>
+        <div class="menu-item"><div><h4>Focaccia de tomate</h4><p>Con albahaca. <span class="tags"><span class="tag veg">Veg</span></span></p></div><div class="price">4,50 €</div></div>
+        <div class="menu-item"><div><h4>Quiche del día</h4><p>Pregunta por la del día.</p></div><div class="price">5,20 €</div></div>
+        <div class="menu-item"><div><h4>Ensalada de temporada</h4><p>Con vinagreta suave.</p></div><div class="price">7,50 €</div></div>
+      </div>
+    </div>
+
+    <p class="menu-note">🌿 Vegetariano · <span style="color:#2F4A1F">🌱</span> Vegano · SG Sin gluten · Precios de ejemplo, editables.</p>
+  </div>
+</section>
+
+<!-- Delivery -->
+<section id="domicilio" class="delivery demo-delivery">
+  <div class="container">
+    <div class="reveal" style="max-width:640px">
+      <span class="eyebrow delivery-eyebrow">🛵 SERVICIO A DOMICILIO</span>
+      <h2 id="config-delivery-title" class="delivery-title">Disfruta tu café sin salir de casa</h2>
+      <p id="config-delivery-lead" class="delivery-lead">Pide tus cafés, desayunos y tartas favoritas y recíbelos cómodamente en tu puerta.</p>
+      <a href="https://wa.me/34600987321?text=Hola%2C%20quiero%20hacer%20un%20pedido%20en%20Caf%C3%A9%20Brisa" target="_blank" rel="noopener" class="btn btn-primary btn-lg mt-16">
+        Pedir por WhatsApp
+      </a>
+    </div>
+    <div class="steps delivery-steps">
+      <div class="step reveal"><div class="n">1</div><h3>Elige</h3><p>Mira la carta y apunta lo que te apetece.</p></div>
+      <div class="step reveal"><div class="n">2</div><h3>Escríbenos</h3><p>Mándanos el pedido por WhatsApp con tu dirección.</p></div>
+      <div class="step reveal"><div class="n">3</div><h3>Recíbelo</h3><p>Te confirmamos el tiempo de entrega al momento.</p></div>
+    </div>
+    <div class="delivery-info reveal">
+      <span>🕘 <span id="config-delivery-hours">9:00 – 17:30</span></span>
+      <span>·</span>
+      <span>💰 Envío <span id="config-delivery-fee">1,50 €</span></span>
+      <span>·</span>
+      <span>📦 Pedido mínimo <span id="config-minimum-order">8 €</span></span>
+      <span>·</span>
+      <span>🎁 Envío gratis desde <span id="config-free-delivery">20 €</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="nosotros" class="section-sage">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img reveal">
+        <img src="https://images.unsplash.com/photo-1535688391459-479d308104f8?crop=entropy&cs=srgb&fm=jpg&q=85&w=1000" alt="Ambiente de Café Brisa" loading="lazy" />
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">👋 Nuestra historia</span>
+        <h2>Un lugar para tomar un buen café y quedarse un rato</h2>
+        <p>Café Brisa nació con una idea sencilla: que tomar un café fuera lo mejor del día, no una pausa entre dos prisas.</p>
+        <p>Elegimos el grano con tostadores pequeños, horneamos por las mañanas y te saludamos cuando cruzas la puerta. Si un día algo no está buenísimo, no lo servimos.</p>
+        <ul class="value-list">
+          <li>
+            <div class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div><b>Calidad</b>Café de tueste medio y proveedores cercanos.</div>
+          </li>
+          <li>
+            <div class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <div><b>Cercanía</b>Te saludamos por tu nombre.</div>
+          </li>
+          <li>
+            <div class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2C20 17.5 12 22 12 22z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div><b>Frescura</b>Compramos poco y a menudo.</div>
+          </li>
+          <li>
+            <div class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div><b>Comunidad</b>Mesas para compartir y WiFi para trabajar.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section id="galeria" class="gallery">
+  <div class="container">
+    <div class="center reveal">
+      <span class="eyebrow">📷 La brisa, en imágenes</span>
+      <h2>El local, los platos y esos ratos</h2>
+      <p>Que no salen en las fotos pero sí en la memoria.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gal reveal"><img src="https://images.unsplash.com/photo-1593443320739-77f74939d0da?crop=entropy&cs=srgb&fm=jpg&q=85&w=600" alt="Latte art" loading="lazy"/><div class="gal-caption">Café de especialidad</div></div>
+      <div class="gal reveal"><img src="https://images.unsplash.com/photo-1623334044303-241021148842?crop=entropy&cs=srgb&fm=jpg&q=85&w=600" alt="Cruasanes" loading="lazy"/><div class="gal-caption">Recién horneados</div></div>
+      <div class="gal reveal"><img src="https://images.unsplash.com/photo-1534234757579-8ad69d218ad4?crop=entropy&cs=srgb&fm=jpg&q=85&w=600" alt="Cappuccino" loading="lazy"/><div class="gal-caption">Cappuccino perfecto</div></div>
+      <div class="gal reveal"><img src="https://images.unsplash.com/photo-1690609561635-f63c587b3aba?crop=entropy&cs=srgb&fm=jpg&q=85&w=600" alt="Latte" loading="lazy"/><div class="gal-caption">Nuestro flat white</div></div>
+      <div class="gal reveal"><img src="https://images.unsplash.com/photo-1534432182912-63863115e106?crop=entropy&cs=srgb&fm=jpg&q=85&w=600" alt="Bakery" loading="lazy"/><div class="gal-caption">Vitrina de la mañana</div></div>
+      <div class="gal reveal"><img src="https://images.unsplash.com/photo-1670404161009-29548c027d06?crop=entropy&cs=srgb&fm=jpg&q=85&w=600" alt="Coffee in hand" loading="lazy"/><div class="gal-caption">Para llevar</div></div>
+      <div class="gal reveal"><img src="https://images.unsplash.com/photo-1542181961-9590d0c79dab?crop=entropy&cs=srgb&fm=jpg&q=85&w=600" alt="Interior" loading="lazy"/><div class="gal-caption">La mesa junto a la ventana</div></div>
+      <div class="gal reveal"><img src="https://images.unsplash.com/photo-1535688391459-479d308104f8?crop=entropy&cs=srgb&fm=jpg&q=85&w=600" alt="Ambiente" loading="lazy"/><div class="gal-caption">Sin prisa</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Hours -->
+<section id="horarios" class="section-sage">
+  <div class="container">
+    <div class="center reveal">
+      <span class="eyebrow">🕘 Horarios</span>
+      <h2>Cuando te apetezca una pausa</h2>
+    </div>
+    <div class="info-grid mt-40">
+      <div class="card reveal">
+        <div class="status"><span class="pulse"></span> <span id="status-text">Abierto ahora</span></div>
+        <h3 style="margin-top:16px">Horario del local</h3>
+        <table class="hours">
+          <tr><td id="config-hours-week">Lunes a viernes</td><td id="config-hours-week-value">7:30 – 20:00</td></tr>
+          <tr><td id="config-hours-saturday">Sábado</td><td id="config-hours-saturday-value">8:00 – 21:00</td></tr>
+          <tr><td id="config-hours-sunday">Domingo</td><td id="config-hours-sunday-value">9:00 – 14:00</td></tr>
+        </table>
+        <h3 style="margin-top:24px">🛵 Domicilios</h3>
+        <p>Todos los días, 9:00 – 17:30, dentro de la zona de reparto.</p>
+        <h3>🗓️ Festivos</h3>
+        <p>Abrimos de 9:00 a 14:00. Avisamos siempre en Instagram.</p>
+      </div>
+      <div id="ubicacion" class="card reveal">
+        <h3>📍 Ubicación</h3>
+         <p style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Dirección ficticia para la demo.</p>
+        <p><strong id="config-address" style="color:var(--coffee)">Avenida de la Brisa 27, Madrid</strong></p>
+        <div class="map-wrap" style="margin:16px 0">
+          <iframe id="config-map" src="https://www.google.com/maps?q=Avenida+de+la+Brisa+27+Madrid&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa Café Brisa"></iframe>
+        </div>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=Avenida%20de%20la%20Brisa%2027%2C%20Madrid" target="_blank" rel="noopener" id="config-directions" class="btn btn-outline">Cómo llegar</a>
+        <h3 style="margin-top:24px">🛵 Zona de domicilio</h3>
+        <p>Centro, Malasaña, Chueca y Lavapiés. Envío 1,50 €, mínimo 8 €, gratis desde 20 €.</p>
+        <h3>🚌 Cómo llegar</h3>
+        <p>Parking público a 3 min. Parada de bus en la esquina.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Payment -->
+
+<section id="pago" class="section-sage">
+  <div class="container">
+    <div class="center reveal">
+      <span class="eyebrow">💳 Pago online</span>
+      <h2>Haz tu pedido y paga online</h2>
+      <p style="max-width:56ch;margin:0 auto">
+        Demo preparada para conectar con un Stripe Payment Link. El enlace de pago real lo debe crear el propietario del negocio.
+      </p>
+    </div>
+
+    <div class="payment-panel reveal">
+      <div id="paymentItems">
+        <p style="margin:0;color:var(--muted)">Añade productos desde la carta para verlos aquí.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap">
+        <strong>Total</strong>
+        <strong id="paymentTotal" style="font-family:'Fraunces',serif;font-size:1.5rem;color:var(--brand)">0,00 €</strong>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <button class="btn btn-primary" onclick="payNow()">Pagar ahora</button>
+        <button class="btn btn-outline" onclick="clearCart()">Vaciar pedido</button>
+      </div>
+      <p id="paymentNote" style="margin:12px 0 0;font-size:.85rem;color:var(--muted)">
+        Para una demo, el botón mostrará una guía. Con un Payment Link real, abrirá el pago seguro.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contacto" class="contact-section">
+  <div class="container">
+    <div class="center reveal">
+      <span class="eyebrow">📞 INFORMACIÓN Y CONTACTO</span>
+      <h2>Todo lo que necesitas para encontrarnos</h2>
+      <p id="config-contact-intro">Teléfono, WhatsApp, email y datos de ubicación en un solo lugar.</p>
+    </div>
+    <div class="contact-grid mt-40">
+      <div class="card reveal">
+        <h3>📞 Contacto</h3>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Datos ficticios para la demo.</p>
+        <ul class="contact-list">
+          <li>
+            <div class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div><a id="config-phone-link" href="tel:+34600987321">+34 600 987 321</a></div>
+          </li>
+          <li>
+            <div class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div><a id="config-email-link" href="mailto:hola@cafebrisademo.es">hola@cafebrisademo.es</a></div>
+          </li>
+          <li>
+            <div class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01"/></svg>
+            </div>
+            <div><a href="https://instagram.com/" target="_blank" rel="noopener">@cafebrisa</a></div>
+          </li>
+          <li>
+            <div class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 3 17l-1.5 5.5L7 21a11 11 0 0 0 13.5-17.5Zm-3.4 11.4c-.3-.1-1.6-.8-1.9-.9s-.4-.1-.6.1-.7.9-.9 1.1-.3.2-.6.1a7.4 7.4 0 0 1-3.6-3.2c-.3-.5.3-.5.8-1.5a.5.5 0 0 0 0-.5c-.1-.1-.6-1.5-.9-2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.6 13.6 0 0 0 5.2 4.6c1.9.8 2.6.9 3.5.7a3.1 3.1 0 0 0 2.1-1.5 2.5 2.5 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4Z"/></svg>
+            </div>
+            <div><a href="https://wa.me/34600987321" target="_blank" rel="noopener">WhatsApp directo</a></div>
+          </li>
+        </ul>
+        <p style="font-size:.85rem; color:var(--muted); margin-top:20px">Datos de ejemplo hasta confirmar los reales.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Escríbenos</h3>
+        <form id="contactForm" onsubmit="sendContact(event)">
+          <div class="grid-2">
+            <div class="form-field"><label for="c-name">Nombre</label><input id="c-name" type="text" required placeholder="Tu nombre"/></div>
+            <div class="form-field"><label for="c-email">Email</label><input id="c-email" type="email" required placeholder="tu@correo.com"/></div>
+          </div>
+          <div class="form-field">
+            <label for="c-motivo">Motivo</label>
+            <select id="c-motivo">
+              <option>Pedido a domicilio</option>
+              <option>Eventos y catering</option>
+              <option>Sugerencia o comentario</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-field"><label for="c-msg">Mensaje</label><textarea id="c-msg" required placeholder="Cuéntanos..."></textarea></div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Enviar mensaje</button>
+          <div id="c-ok" style="display:none; margin-top:14px; padding:12px 16px; background:#E4F0DC; color:#3E5B2D; border-radius:12px; font-weight:600">✓ ¡Gracias! Te responderemos pronto.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="color:#fff; margin-bottom:12px">
+          <span class="dot">☕</span>
+          <span>Café Brisa</span>
+        </div>
+        <p style="color:rgba(255,255,255,.7); max-width:340px">Buen café, algo dulce y sin prisa. Nos encontrarás en el corazón de Madrid.</p>
+        <div class="socials mt-16">
+          <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01"/></svg></a>
+          <a href="https://wa.me/34600987321" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 003 17l-1.5 5.5L7 21a11 11 0 0013.5-17.5z"/></svg></a>
+          <a href="mailto:hola@cafebrisademo.es" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Menú</h4>
+        <a href="#carta">Carta</a>
+        <a href="#promociones">Promociones</a>
+        <a href="#domicilio">A domicilio</a>
+        <a href="#galeria">Galería</a>
+      </div>
+      <div>
+        <h4>Información</h4>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#horarios">Horarios</a>
+        <a href="#ubicacion">Ubicación</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="#" onclick="openModal('modal-legal'); return false;">Aviso legal</a>
+        <a href="#" onclick="openModal('modal-privacy'); return false;">Política de privacidad</a>
+        <a href="#" onclick="openModal('modal-cookies'); return false;">Política de cookies</a>
+        <a href="#" onclick="showCookies(); return false;">Preferencias de cookies</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© <span id="year"></span> Café Brisa. Hecho con ☕ en Madrid.</div>
+      <div>Datos de ejemplo. Personalízalo con los tuyos.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Cookies banner -->
+<div class="cookies" id="cookies">
+  <h4>🍪 Gestionar consentimiento</h4>
+  <p>Utilizamos cookies para mejorar tu experiencia, analizar el uso del sitio y personalizar contenidos. Puedes aceptar todas, rechazarlas o configurarlas. <button class="cookies-link" onclick="openModal('modal-cookies')">Más información</button></p>
+  <div class="cookies-actions">
+    <button class="btn btn-primary" onclick="setCookies('all')">Aceptar todo</button>
+    <button class="btn btn-outline" onclick="setCookies('none')">Rechazar</button>
+    <button class="btn btn-ghost" onclick="openModal('modal-cookies-settings')">Preferencias</button>
+  </div>
+</div>
+
+<!-- Modals -->
+<div class="modal" id="modal-cookies">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal-cookies')" aria-label="Cerrar">×</button>
+    <h2>Política de cookies</h2>
+    <p>En Café Brisa utilizamos cookies propias y de terceros para el correcto funcionamiento del sitio, medir su uso y mostrarte contenido relevante.</p>
+    <h3>Cookies funcionales</h3>
+    <p>Estrictamente necesarias para permitir el uso del sitio (idioma, sesión, carrito de pedidos). Siempre activas.</p>
+    <h3>Cookies de preferencias</h3>
+    <p>Recuerdan tus preferencias para ofrecerte una experiencia más personalizada (por ejemplo, la última carta consultada).</p>
+    <h3>Cookies estadísticas</h3>
+    <p>Nos permiten conocer cuántas personas visitan el sitio y qué páginas usan, siempre de forma anónima.</p>
+    <h3>Cookies de marketing</h3>
+    <p>Se emplean para mostrar publicidad relacionada con tus intereses en otros sitios web.</p>
+    <p style="margin-top:20px"><button class="btn btn-primary" onclick="closeModal('modal-cookies'); showCookies();">Configurar cookies</button></p>
+  </div>
+</div>
+
+<div class="modal" id="modal-cookies-settings">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal-cookies-settings')" aria-label="Cerrar">×</button>
+    <h2>Preferencias de cookies</h2>
+    <p>Elige qué cookies quieres permitir. Puedes cambiar esta configuración en cualquier momento.</p>
+    <div style="margin-top:20px">
+      <label style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line)">
+        <div><b style="color:var(--coffee)">Funcionales</b><br/><span style="font-size:.85rem; color:var(--muted)">Necesarias · siempre activas</span></div>
+        <input type="checkbox" checked disabled/>
+      </label>
+      <label style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line)">
+        <div><b style="color:var(--coffee)">Preferencias</b><br/><span style="font-size:.85rem; color:var(--muted)">Recordar tus opciones</span></div>
+        <input type="checkbox" id="pref-preferences"/>
+      </label>
+      <label style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line)">
+        <div><b style="color:var(--coffee)">Estadísticas</b><br/><span style="font-size:.85rem; color:var(--muted)">Analítica anónima</span></div>
+        <input type="checkbox" id="pref-stats"/>
+      </label>
+      <label style="display:flex; justify-content:space-between; align-items:center; padding:14px 0">
+        <div><b style="color:var(--coffee)">Marketing</b><br/><span style="font-size:.85rem; color:var(--muted)">Publicidad personalizada</span></div>
+        <input type="checkbox" id="pref-marketing"/>
+      </label>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:20px">
+      <button class="btn btn-primary" onclick="saveCookiesPrefs()">Guardar preferencias</button>
+      <button class="btn btn-outline" onclick="setCookies('all'); closeModal('modal-cookies-settings')">Aceptar todo</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-privacy">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal-privacy')" aria-label="Cerrar">×</button>
+    <h2>Política de privacidad</h2>
+    <p>En Café Brisa nos tomamos muy en serio la privacidad de nuestros clientes. A continuación explicamos qué datos tratamos, con qué finalidad y qué derechos tienes.</p>
+    <h3>Responsable</h3>
+    <p>Café Brisa · Avenida de la Brisa 27, Madrid · hola@cafebrisademo.es</p>
+    <h3>Datos que tratamos</h3>
+    <p>Recogemos únicamente los datos que nos proporcionas voluntariamente a través del formulario de contacto o al hacer un pedido (nombre, email, teléfono y dirección de entrega).</p>
+    <h3>Finalidad</h3>
+    <p>Gestionar los pedidos, responder a tus consultas y, con tu consentimiento, enviarte novedades y promociones.</p>
+    <h3>Conservación</h3>
+    <p>Conservamos tus datos el tiempo necesario para cumplir con la finalidad para la que fueron recogidos y las obligaciones legales aplicables.</p>
+    <h3>Derechos</h3>
+    <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, portabilidad y limitación escribiéndonos a hola@cafebrisademo.es.</p>
+    <p style="font-size:.85rem; color:var(--muted); margin-top:20px">Texto de ejemplo, adáptalo a la realidad de tu negocio.</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-legal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal-legal')" aria-label="Cerrar">×</button>
+    <h2>Aviso legal</h2>
+    <p>La utilización de este sitio web supone la aceptación de las condiciones que se detallan a continuación.</p>
+    <h3>Titular</h3>
+    <p>Café Brisa · CIF B-00000000 · Avenida de la Brisa 27, Madrid</p>
+    <h3>Contacto</h3>
+    <p>hola@cafebrisademo.es · +34 600 987 321</p>
+    <h3>Propiedad intelectual</h3>
+    <p>Todos los contenidos del sitio (textos, imágenes, logotipos, diseños) son propiedad de Café Brisa y están protegidos por la normativa vigente.</p>
+    <h3>Responsabilidad</h3>
+    <p>Café Brisa no se responsabiliza de los daños que se puedan derivar del uso de la información contenida en este sitio.</p>
+    <p style="font-size:.85rem; color:var(--muted); margin-top:20px">Texto de ejemplo, adáptalo a tu situación real.</p>
+  </div>
+</div>
+
+<!-- Floating actions -->
+<button class="cart-badge" id="cartBadge" onclick="openPaymentPanel()" aria-label="Abrir pedido">🛒 <span id="cartCount">0</span> · Pagar pedido</button>
+
+<a href="https://wa.me/34600987321?text=Hola%2C%20quiero%20hacer%20un%20pedido%20en%20Caf%C3%A9%20Brisa" target="_blank" rel="noopener" class="fab-whatsapp" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 3 17l-1.5 5.5L7 21a11 11 0 0 0 13.5-17.5Zm-8.5 17a9 9 0 0 1-4.6-1.3l-.3-.2-3.2 1 1-3.2-.2-.3A9 9 0 1 1 12 20.5Zm5.1-6.6c-.3-.1-1.6-.8-1.9-.9s-.4-.1-.6.1-.7.9-.9 1.1-.3.2-.6.1a7.4 7.4 0 0 1-3.6-3.2c-.3-.5.3-.5.8-1.5a.5.5 0 0 0 0-.5c-.1-.1-.6-1.5-.9-2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.6 13.6 0 0 0 5.2 4.6c1.9.8 2.6.9 3.5.7a3.1 3.1 0 0 0 2.1-1.5 2.5 2.5 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4Z"/></svg>
+</a>
+
+<script>
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Highlight today's promo
+  (function(){
+    const today = new Date().getDay();
+    document.querySelectorAll('.promo').forEach(el=>{
+      el.classList.remove('today');
+      el.querySelector('.badge')?.remove();
+    });
+    const el = document.querySelector('.promo[data-day="'+today+'"]');
+    if(el){
+      el.classList.add('today');
+      const b = document.createElement('span');
+      b.className='badge'; b.textContent='HOY';
+      el.appendChild(b);
+    }
+  })();
+
+  // Open status
+  (function(){
+    const now = new Date();
+    const d = now.getDay(); const h = now.getHours() + now.getMinutes()/60;
+    let open = false;
+    if(d>=1 && d<=5) open = h>=7.5 && h<20;
+    else if(d===6) open = h>=8 && h<21;
+    else open = h>=9 && h<14;
+    const s = document.getElementById('status-text');
+    if(!open){ s.textContent='Cerrado ahora'; s.parentElement.style.background='#F3E0DA'; s.parentElement.style.color='#8A2A1D'; s.parentElement.querySelector('.pulse').style.background='#8A2A1D'; }
+  })();
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelectorAll('.menu-panel').forEach(p=>p.style.display='none');
+      document.getElementById('panel-'+t.dataset.tab).style.display='block';
+    });
+  });
+
+  // Drawer
+  function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); }
+
+  // Modals
+  function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+  document.querySelectorAll('.modal').forEach(m=>{
+    m.addEventListener('click', e=>{ if(e.target===m) closeModal(m.id); });
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){ document.querySelectorAll('.modal.open').forEach(m=>closeModal(m.id)); }
+  });
+
+  // Cookies
+  function showCookies(){ document.getElementById('cookies').classList.add('show'); }
+  function hideCookies(){ document.getElementById('cookies').classList.remove('show'); }
+  function setCookies(mode){
+    const prefs = {
+      functional: true,
+      preferences: mode==='all',
+      stats: mode==='all',
+      marketing: mode==='all'
+    };
+    try{ localStorage.setItem('cb_cookies', JSON.stringify({prefs, date:Date.now()})); }catch(e){}
+    hideCookies();
+  }
+  function saveCookiesPrefs(){
+    const prefs = {
+      functional: true,
+      preferences: document.getElementById('pref-preferences').checked,
+      stats: document.getElementById('pref-stats').checked,
+      marketing: document.getElementById('pref-marketing').checked
+    };
+    try{ localStorage.setItem('cb_cookies', JSON.stringify({prefs, date:Date.now()})); }catch(e){}
+    closeModal('modal-cookies-settings');
+    hideCookies();
+  }
+  // Show cookies banner if not set
+  (function(){
+    try{
+      const saved = localStorage.getItem('cb_cookies');
+      if(!saved){ setTimeout(showCookies, 1200); }
+    }catch(e){ setTimeout(showCookies, 1200); }
+  })();
+
+  // Contact form
+  function sendContact(e){
+    e.preventDefault();
+    const name = document.getElementById('c-name').value;
+    const email = document.getElementById('c-email').value;
+    const motivo = document.getElementById('c-motivo').value;
+    const msg = document.getElementById('c-msg').value;
+    // Guardar en localStorage como demo
+    try{
+      const list = JSON.parse(localStorage.getItem('cb_contacts')||'[]');
+      list.push({name, email, motivo, msg, date:new Date().toISOString()});
+      localStorage.setItem('cb_contacts', JSON.stringify(list));
+    }catch(err){}
+    document.getElementById('c-ok').style.display='block';
+    document.getElementById('contactForm').reset();
+    setTimeout(()=>{ document.getElementById('c-ok').style.display='none'; }, 6000);
+  }
+
+  // Reveal on scroll
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold: .12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Download this HTML file
+  function downloadHTML(){
+    fetch(window.location.href).then(r=>r.text()).then(html=>{
+      const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'index.html';
+      document.body.appendChild(a); a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 100);
+    }).catch(()=>{
+      // Fallback: open in new tab so user can Ctrl+S
+      window.open(window.location.href, '_blank');
+    });
+  }
+</script>
+
+<script>
+/* ===== Carrito demo + Stripe Payment Link ===== */
+const CART_KEY = "cafe-brisa-cart-v1";
+let cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+
+function saveCart(){
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  renderCart();
+}
+function addToCart(name, price){
+  const existing = cart.find(i => i.name === name);
+  if(existing) existing.qty += 1;
+  else cart.push({name, price, qty:1});
+  saveCart();
+  document.getElementById('pago')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function clearCart(){
+  cart = [];
+  saveCart();
+}
+function renderCart(){
+  const box = document.getElementById('paymentItems');
+  const totalEl = document.getElementById('paymentTotal');
+  const badge = document.getElementById('cartBadge');
+  const countEl = document.getElementById('cartCount');
+  if(!box || !totalEl) return;
+
+  if(cart.length === 0){
+    box.innerHTML = '<p style="margin:0;color:var(--muted)">Añade productos desde la carta para verlos aquí.</p>';
+    totalEl.textContent = '0,00 €';
+    badge?.classList.remove('show');
+    return;
+  }
+
+  let total = 0;
+  let count = 0;
+  box.innerHTML = cart.map((item, idx) => {
+    const line = item.price * item.qty;
+    total += line; count += item.qty;
+    return `<div class="payment-row">
+      <div>
+        <strong>${escapeHtml(item.name)}</strong>
+        <div style="font-size:.85rem;color:var(--muted)">${item.qty} × ${item.price.toFixed(2).replace('.',',')} €</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <strong>${line.toFixed(2).replace('.',',')} €</strong>
+        <button class="btn btn-ghost" style="padding:8px 10px" onclick="removeFromCart(${idx})" aria-label="Eliminar ${escapeHtml(item.name)}">×</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  totalEl.textContent = total.toFixed(2).replace('.',',') + ' €';
+  countEl.textContent = count;
+  badge?.classList.add('show');
+}
+function removeFromCart(idx){
+  if(!cart[idx]) return;
+  cart[idx].qty -= 1;
+  if(cart[idx].qty <= 0) cart.splice(idx,1);
+  saveCart();
+}
+function openPaymentPanel(){
+  document.getElementById('pago')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function payNow(){
+  if(cart.length === 0){
+    alert('Añade al menos un producto antes de pagar.');
+    return;
+  }
+  const link = (SITE_CONFIG.paymentLink || '').trim();
+  if(!link){
+    alert('Demo lista. Para cobrar de verdad, el propietario debe crear un Stripe Payment Link y ponerlo en SITE_CONFIG.paymentLink.');
+    return;
+  }
+  window.location.href = link;
+}
+function escapeHtml(v){
+  return String(v).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+renderCart();
+
+/* Cerrar drawer al navegar y con Escape */
+function closeDrawer(){ document.getElementById('drawer')?.classList.remove('open'); }
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
+
+/* Estado de apertura */
+(() => {
+  const el = document.getElementById('status-text');
+  if(!el) return;
+  const now = new Date();
+  const day = now.getDay();
+  const mins = now.getHours()*60 + now.getMinutes();
+  let open = false;
+  if(day >= 1 && day <= 5) open = mins >= 450 && mins < 1200;
+  if(day === 6) open = mins >= 480 && mins < 1260;
+  if(day === 0) open = mins >= 540 && mins < 840;
+  el.textContent = open ? 'Abierto ahora' : 'Cerrado ahora';
+})();
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", applySiteConfig);
+</script>
+
+
+<div style="background:#EAF3E4;border-bottom:1px solid #C9DCC0;padding:8px 14px;text-align:center;font-size:.8rem;color:#34502B">
+  💡 Demo editable: abre el código y busca <strong>CAFÉ BRISA — ZONA DE EDICIÓN RÁPIDA</strong> al principio.
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", applySiteConfig);
+</script>
+
+</body>
+</html>
